@@ -7,6 +7,8 @@ __author__ = 'Adapted from Adafruit'
 __license__ = "GPL"
 
 GPIO.setmode(GPIO.BOARD)
+GPIO.setup(16, GPIO.OUT, initial=GPIO.LOW) # Set pin 16 to be an output pin and set initial value to low (off)
+GPIO.setup(18, GPIO.OUT, initial=GPIO.LOW) # Set pin 18 to be an output pin and set initial value to low (off)
 
 #define the pin that goes to the circuit
 pin_to_circuit = 29
@@ -34,10 +36,14 @@ try:
     while True:
         light_level = rc_time(pin_to_circuit)
         #print(rc_time(pin_to_circuit))
-        if light_level < 20:
-            print ('Day')
+        if light_level > 200:
+            print (light_level)
+            GPIO.output(18,GPIO.HIGH)
+            GPIO.output(16,GPIO.LOW)
         else:
-            print ('Night')
+            GPIO.output(16,GPIO.HIGH)
+            GPIO.output(18,GPIO.LOW)
+            print (light_level)
 except KeyboardInterrupt:
     pass
 finally:
